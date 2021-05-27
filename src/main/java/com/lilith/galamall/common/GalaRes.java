@@ -2,6 +2,7 @@ package com.lilith.galamall.common;
 
 import lombok.Getter;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.io.Serializable;
 
@@ -10,6 +11,8 @@ import java.io.Serializable;
  * @Date: 上午2:10 2021/5/28
  */
 @Getter
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+// 保证Json序列化的时候，如果是null的对象，key也会消失
 public class GalaRes<T> implements Serializable {
 
     private int status;
@@ -37,6 +40,7 @@ public class GalaRes<T> implements Serializable {
     }
 
     @JsonIgnore
+    // 使之不在json序列化结果当中
     public boolean isSuccess(){
         return this.status == ResponseCode.SUCCESS.getCode();
     }
