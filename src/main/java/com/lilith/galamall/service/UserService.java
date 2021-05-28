@@ -10,4 +10,9 @@ import com.lilith.galamall.entity.User;
 public interface UserService {
 
     GalaRes<User> login(String username, String password);
+
+    GalaRes<String> register(User user);
+
+    GalaRes<String> checkValid(String value, String type);
+
 }

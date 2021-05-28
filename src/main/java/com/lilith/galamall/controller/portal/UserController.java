@@ -43,12 +43,21 @@ public class UserController {
     }
 
 
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
     @ResponseBody
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public GalaRes<String> register(User user){
 
-        return null;
+        return userService.register(user);
     }
+
+
+    @RequestMapping(value = "/check_valid", method = RequestMethod.GET)
+    @ResponseBody
+    public GalaRes<String> checkValid(String value, String type){
+
+        return userService.checkValid(value,type);
+    }
+
 
 
 

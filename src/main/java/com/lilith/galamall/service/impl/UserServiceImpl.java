@@ -1,9 +1,11 @@
 package com.lilith.galamall.service.impl;
 
+import com.lilith.galamall.common.Const;
 import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.dao.UserMapper;
 import com.lilith.galamall.entity.User;
 import com.lilith.galamall.service.UserService;
+import com.lilith.galamall.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,54 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    public GalaRes<String> checkValid(String value, String type){
+        if (StringUtils.isNotBlank(type)){
+
+            if (Const.USERNAME.equalsIgnoreCase(type)){
+                int count = userMapper.checkUsername(value);
+                if (count > 0){
+                    return GalaRes.createByErrorMessage("用户名已存在");
+                }
+            }
+
+            if (Const.EMAIL.equalsIgnoreCase(type)){
+                int count = userMapper.checkEmail(value);
+                if (count > 0){
+                    return GalaRes.createByErrorMessage("邮箱已存在");
+                }
+            }
+        } else {
+            return GalaRes.createByErrorMessage("参数错误");
+        }
+
+        return GalaRes.createBySuccessMessage("校验成功");
+    }
+
+    public GalaRes<String> register(User user){
+        GalaRes galaRes = this.checkValid(user.getUsername(),Const.USERNAME);
+        if (!galaRes.isSuccess()){
+            return galaRes;
+        }
+
+        galaRes = this.checkValid(user.getEmail(),Const.EMAIL);
+        if (!galaRes.isSuccess()){
+            return galaRes;
+        }
+        // 设置为普通用户
+        user.setRole(Const.Role.ROLE_CUSTOMER);
+
+        // md5 加密
+        user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
+
+        int count = userMapper.insert(user);
+
+        if (count == 0){
+            return GalaRes.createByErrorMessage("注册失败");
+        }
+        return GalaRes.createBySuccessMessage("注册成功");
+
+    }
+
     @Override
     public GalaRes<User> login(String username, String password) {
 
@@ -27,8 +77,9 @@ public class UserServiceImpl implements UserService {
             return GalaRes.createByErrorMessage("用户名不存在");
         }
 
-        // todo 密码登陆md5
-        User user = userMapper.selectLogin(username,password);
+        // 密码登陆md5
+        String md5Password = MD5Util.MD5EncodeUtf8(password);
+        User user = userMapper.selectLogin(username,md5Password);
         if (user == null){
             return GalaRes.createByErrorMessage("密码错误");
         }
