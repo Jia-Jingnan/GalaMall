@@ -8,19 +8,18 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
 /**
  * @Author:JiaJingnan
  * @Date: 上午2:05 2021/5/28
  */
-@RestController
+@Controller
 @RequestMapping("user")
 @Api(tags = "用户模块")
 public class UserController {
@@ -29,8 +28,8 @@ public class UserController {
     private UserService userService;
 
 
-    @ApiOperation(value = "用户名密码登陆", httpMethod = "POST")
-    @PostMapping("/login")
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
     public GalaRes<User> login(String username, String password, HttpSession session){
 
         GalaRes<User> res = userService.login(username, password);
@@ -41,12 +40,22 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "登出", httpMethod = "GET")
-    @GetMapping("/logout")
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @ResponseBody
     public GalaRes<String> logout(HttpSession session){
         session.removeAttribute(Const.CURRENT_USER);
         return GalaRes.createBySuccess();
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public GalaRes<String> register(User user){
+
+        return null;
+    }
+
 
 
 }
