@@ -21,18 +21,22 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 
-    <org.springframework.version>5.2.9.RELEASE</org.springframework.version>
+    <org.springframework.version>4.0.0.RELEASE</org.springframework.version>
     <org.mybatis.version>3.4.6</org.mybatis.version>
     <org.mybatis.spring.version>1.3.0</org.mybatis.spring.version>
   </properties>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+
+    <org.springframework.version>4.0.0.RELEASE</org.springframework.version>
+    <org.mybatis.version>3.4.1</org.mybatis.version>
+    <org.mybatis.spring.version>1.3.0</org.mybatis.spring.version>
+  </properties>
+
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
 
     <dependency>
       <groupId>org.apache.tomcat</groupId>
@@ -124,7 +128,7 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>8.0.17</version>
+      <version>5.1.6</version>
     </dependency>
 
     <dependency>
@@ -215,6 +219,7 @@
       <version>0.9.4</version>
     </dependency>
 
+
     <!-- alipay -->
     <dependency>
       <groupId>commons-codec</groupId>
@@ -257,18 +262,17 @@
       <artifactId>jedis</artifactId>
       <version>2.9.0</version>
     </dependency>
-
     <!--swagger2自动生成接口文档-->
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger2</artifactId>
-      <version>2.9.2</version>
-    </dependency>
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger-ui</artifactId>
-      <version>2.9.2</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>io.springfox</groupId>-->
+<!--      <artifactId>springfox-swagger2</artifactId>-->
+<!--      <version>2.9.2</version>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>io.springfox</groupId>-->
+<!--      <artifactId>springfox-swagger-ui</artifactId>-->
+<!--      <version>2.9.2</version>-->
+<!--    </dependency>-->
 
     <dependency>
       <groupId>org.projectlombok</groupId>
