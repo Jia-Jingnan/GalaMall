@@ -24,18 +24,18 @@ public class SwaggerConfiguration {
                 .apiInfo(buildApiInfo())
                 .select()
                 // 指定package下的接口显示在接口文档中
-                .apis(RequestHandlerSelectors.basePackage("com.lilith.youtest.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.lilith.galamall.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo buildApiInfo() {
         return new ApiInfoBuilder()
-                .title("YouTest接口文档")
+                .title("GalaMall接口文档")
                 .contact(new Contact("贾敬楠", null, "875480307@qq.com"))
-                .description("YouTest测试平台接口文档")
-                .termsOfServiceUrl("https://github.com/Jia-Jingnan/YouTest")
-                .version("0.0.1-SNAPSHOT")
+                .description("GalaMall接口文档")
+                .termsOfServiceUrl("https://github.com/Jia-Jingnan/GalaMall")
+                .version("gala-v1.0")
                 .build();
     }
 }
