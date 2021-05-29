@@ -58,6 +58,18 @@ public class UserController {
         return userService.checkValid(value,type);
     }
 
+    @RequestMapping(value = "/get_user_info", method = RequestMethod.GET)
+    @ResponseBody
+    public GalaRes<User> getUserInfo(HttpSession session){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user != null){
+            return GalaRes.createBySuccess(user);
+        }
+        return GalaRes.createByErrorMessage("用户未登陆，无法获取当前用户信息");
+    }
+
+
+
 
 
 
