@@ -69,6 +69,12 @@ public class UserController {
     }
 
 
+    @RequestMapping(value = "/forget_get_question", method = RequestMethod.GET)
+    @ResponseBody
+    public GalaRes<String> forgetGetQuestion(String username){
+        return userService.selectQuestion(username);
+    }
+
 
 
 

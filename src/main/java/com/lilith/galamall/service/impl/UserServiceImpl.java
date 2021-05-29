@@ -21,6 +21,21 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+
+
+    public GalaRes<String> selectQuestion(String username){
+        GalaRes validInfo = this.checkValid(username,Const.USERNAME);
+        if (validInfo.isSuccess()){
+            return GalaRes.createByErrorMessage("用户不存在");
+        }
+        String question = userMapper.selectQuestionByUsername(username);
+        if (StringUtils.isNotBlank(question)){
+            return GalaRes.createBySuccess(question);
+        }
+        return GalaRes.createByErrorMessage("找回密码问题为空");
+    }
+
+
     public GalaRes<String> checkValid(String value, String type){
         if (StringUtils.isNotBlank(type)){
 

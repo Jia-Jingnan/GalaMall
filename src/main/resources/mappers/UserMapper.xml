@@ -161,6 +161,10 @@
   </select>
 
 
+  <select id="selectQuestionByUsername" resultType="string" parameterType="string">
+    select question from galamall_user where username = #{username}
+  </select>
+
 
   <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
     select

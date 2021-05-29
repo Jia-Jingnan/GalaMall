@@ -15,4 +15,7 @@ public interface UserService {
 
     GalaRes<String> checkValid(String value, String type);
 
+    GalaRes<String> selectQuestion(String username);
+
+
 }
