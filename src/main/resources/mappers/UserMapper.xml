@@ -179,4 +179,13 @@
     where username = #{username}
     and password = #{password}
   </select>
+
+  <update id="updatePasswordByUsername" parameterType="com.lilith.galamall.entity.User" >
+    update galamall_user
+    set password = #{password},
+      update_time = now()
+    where username = #{username}
+  </update>
+
+
 </mapper>
