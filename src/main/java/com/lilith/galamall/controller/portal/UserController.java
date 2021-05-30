@@ -4,8 +4,6 @@ import com.lilith.galamall.common.Const;
 import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.entity.User;
 import com.lilith.galamall.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,13 +74,23 @@ public class UserController {
         return userService.selectQuestion(username);
     }
 
-    @RequestMapping(value = "/forget_check_answer", method = RequestMethod.GET)
+    @RequestMapping(value = "/forget_check_answer.do", method = RequestMethod.GET)
     @ResponseBody
     public GalaRes<String> forgetCheckAnswer(String username, String question, String answer){
 
         return userService.checkAnswer(username, question, answer);
 
     }
+
+    @RequestMapping(value = "/forget_reset_password.do", method = RequestMethod.GET)
+    @ResponseBody
+    public GalaRes<String> forgetResetPassword(String username, String password, String forgetToken){
+
+        return userService.forgetResetPassword(username,password,forgetToken);
+    }
+
+
+
 
 
 
