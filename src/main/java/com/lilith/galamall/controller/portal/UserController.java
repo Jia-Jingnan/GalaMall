@@ -4,6 +4,8 @@ import com.lilith.galamall.common.Const;
 import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.entity.User;
 import com.lilith.galamall.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +25,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/login.do", method = RequestMethod.POST)
     @ResponseBody
     public GalaRes<User> login(String username, String password, HttpSession session){
 
@@ -35,7 +36,7 @@ public class UserController {
         return res;
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @RequestMapping(value = "/logout.do", method = RequestMethod.GET)
     @ResponseBody
     public GalaRes<String> logout(HttpSession session){
         session.removeAttribute(Const.CURRENT_USER);
@@ -43,7 +44,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @RequestMapping(value = "/register.do", method = RequestMethod.GET)
     @ResponseBody
     public GalaRes<String> register(User user){
 
@@ -51,14 +52,14 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/check_valid", method = RequestMethod.GET)
+    @RequestMapping(value = "/check_valid.do", method = RequestMethod.GET)
     @ResponseBody
     public GalaRes<String> checkValid(String value, String type){
 
         return userService.checkValid(value,type);
     }
 
-    @RequestMapping(value = "/get_user_info", method = RequestMethod.GET)
+    @RequestMapping(value = "/get_user_info.do", method = RequestMethod.GET)
     @ResponseBody
     public GalaRes<User> getUserInfo(HttpSession session){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -69,11 +70,20 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/forget_get_question", method = RequestMethod.GET)
+    @RequestMapping(value = "/forget_get_question.do", method = RequestMethod.GET)
     @ResponseBody
     public GalaRes<String> forgetGetQuestion(String username){
         return userService.selectQuestion(username);
     }
+
+    @RequestMapping(value = "/forget_check_answer", method = RequestMethod.GET)
+    @ResponseBody
+    public GalaRes<String> forgetCheckAnswer(String username, String question, String answer){
+
+        return userService.checkAnswer(username, question, answer);
+
+    }
+
 
 
 
