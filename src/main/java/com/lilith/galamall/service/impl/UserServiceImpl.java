@@ -24,6 +24,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    public static final String TOKEN_PREFIX = "token_";
+
     @Override
     public GalaRes<String> checkAnswer(String username, String question, String answer) {
         int result = userMapper.checkAnswer(username,question,answer);
@@ -31,13 +33,39 @@ public class UserServiceImpl implements UserService {
             // 生成token，放在本地缓存中
             String forgetToken = UUID.randomUUID().toString();
             // 设置本地缓存
-            TokenCache.setKey("token"+username,forgetToken);
+            TokenCache.setKey(TOKEN_PREFIX + username,forgetToken);
             return GalaRes.createBySuccess(forgetToken);
         }
 
         return GalaRes.createByErrorMessage("忘记密码问题答案错误");
     }
 
+    @Override
+    public GalaRes<String> forgetResetPassword(String username, String passowrd, String forgetToken) {
+        if (StringUtils.isBlank(forgetToken)){
+            return GalaRes.createByErrorMessage("参数错误，Token为必传参数");
+        }
+        GalaRes validInfo = this.checkValid(username,Const.USERNAME);
+        if (validInfo.isSuccess()){
+            return GalaRes.createByErrorMessage("用户不存在");
+        }
+        String token = TokenCache.getValue(TOKEN_PREFIX + username);
+        if (StringUtils.isBlank(token)){
+            return GalaRes.createByErrorMessage("token无效或过期");
+        }
+
+        if (StringUtils.equals(forgetToken,token)){
+            // 给新密码进行md5加密
+            String md5Password = MD5Util.MD5EncodeUtf8(passowrd);
+            int row = userMapper.updatePasswordByUsername(username,md5Password);
+            if (row > 0){
+                return GalaRes.createBySuccessMessage("修改密码成功");
+            }
+        } else {
+            return GalaRes.createByErrorMessage("token错误，请重新获取");
+        }
+        return GalaRes.createByErrorMessage("修改密码失败");
+    }
 
 
     public GalaRes<String> selectQuestion(String username){
