@@ -166,6 +166,12 @@
   </select>
 
 
+  <select id="checkAnswer" resultType="int" parameterType="string">
+    select count(1) from galamall_user where username = #{username} and
+    question = #{question} and answer = #{answer}
+  </select>
+
+
   <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
     select
     <include refid="Base_Column_List" />
