@@ -17,5 +17,6 @@ public interface UserService {
 
     GalaRes<String> selectQuestion(String username);
 
+    GalaRes<String> checkAnswer(String username, String question, String answer);
 
 }

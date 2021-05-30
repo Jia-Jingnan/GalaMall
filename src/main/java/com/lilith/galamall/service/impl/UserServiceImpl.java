@@ -2,6 +2,7 @@ package com.lilith.galamall.service.impl;
 
 import com.lilith.galamall.common.Const;
 import com.lilith.galamall.common.GalaRes;
+import com.lilith.galamall.common.TokenCache;
 import com.lilith.galamall.dao.UserMapper;
 import com.lilith.galamall.entity.User;
 import com.lilith.galamall.service.UserService;
@@ -9,6 +10,8 @@ import com.lilith.galamall.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 
 /**
@@ -20,6 +23,20 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Override
+    public GalaRes<String> checkAnswer(String username, String question, String answer) {
+        int result = userMapper.checkAnswer(username,question,answer);
+        if (result > 0){
+            // 生成token，放在本地缓存中
+            String forgetToken = UUID.randomUUID().toString();
+            // 设置本地缓存
+            TokenCache.setKey("token"+username,forgetToken);
+            return GalaRes.createBySuccess(forgetToken);
+        }
+
+        return GalaRes.createByErrorMessage("忘记密码问题答案错误");
+    }
 
 
 
