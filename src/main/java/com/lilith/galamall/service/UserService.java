@@ -20,4 +20,6 @@ public interface UserService {
     GalaRes<String> checkAnswer(String username, String question, String answer);
 
     GalaRes<String> forgetResetPassword(String username, String passowrd, String forgetToken);
+
+    GalaRes<String> resetPassword(String passwordOld, String passwordNew, User user);
 }

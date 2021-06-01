@@ -67,6 +67,22 @@ public class UserServiceImpl implements UserService {
         return GalaRes.createByErrorMessage("修改密码失败");
     }
 
+    @Override
+    public GalaRes<String> resetPassword(String passwordOld, String passwordNew, User user) {
+        // 防止横向越权，要校验用户的旧密码，一定要指定是这个用户，因为会查询一个count(1),如果不指定id，count>0
+        int count = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld),user.getId());
+        if (count == 0){
+            return GalaRes.createByErrorMessage("旧密码错误");
+        }
+
+        user.setPassword(MD5Util.MD5EncodeUtf8(passwordNew));
+        int updateCount = userMapper.updateByPrimaryKeySelective(user);
+        if (updateCount > 0){
+            return GalaRes.createBySuccessMessage("密码更新成功");
+        }
+        return GalaRes.createByErrorMessage("密码更新失败");
+    }
+
 
     public GalaRes<String> selectQuestion(String username){
         GalaRes validInfo = this.checkValid(username,Const.USERNAME);
