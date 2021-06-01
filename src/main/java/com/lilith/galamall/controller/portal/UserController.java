@@ -29,6 +29,7 @@ public class UserController {
 
         GalaRes<User> res = userService.login(username, password);
         if (res.isSuccess()){
+            // 设置Session中的登陆用户
             session.setAttribute(Const.CURRENT_USER, res.getData());
         }
         return res;
@@ -88,6 +89,21 @@ public class UserController {
 
         return userService.forgetResetPassword(username,password,forgetToken);
     }
+
+    // 登陆状态重设密码
+    @RequestMapping(value = "/reset_password.do", method = RequestMethod.GET)
+    @ResponseBody
+    public GalaRes<String> resetPassword(HttpSession session, String passwordOld, String passwordNew){
+
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createByErrorMessage("用户为登陆");
+        }
+
+        return userService.resetPassword(passwordOld,passwordNew,user);
+
+    }
+
 
 
 
