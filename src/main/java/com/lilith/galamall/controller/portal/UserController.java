@@ -104,6 +104,25 @@ public class UserController {
 
     }
 
+    @RequestMapping(value = "/update_information.do", method = RequestMethod.GET)
+    @ResponseBody
+    public GalaRes<User> updateInformation(HttpSession session, User user){
+        User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
+        if (currentUser == null){
+            return GalaRes.createByErrorMessage("用户未登陆");
+        }
+
+        user.setId(currentUser.getId());
+        user.setUsername(user.getUsername());
+        GalaRes<User> userGalaRes = userService.updateInformation(user);
+        if (userGalaRes.isSuccess()){
+            session.setAttribute(Const.CURRENT_USER,userGalaRes.getData());
+        }
+        return userGalaRes;
+    }
+
+
+
 
 
 
