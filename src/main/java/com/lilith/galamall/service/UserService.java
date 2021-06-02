@@ -22,4 +22,6 @@ public interface UserService {
     GalaRes<String> forgetResetPassword(String username, String passowrd, String forgetToken);
 
     GalaRes<String> resetPassword(String passwordOld, String passwordNew, User user);
+
+    GalaRes<User> updateInformation(User user);
 }

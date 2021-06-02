@@ -26,6 +26,29 @@ public class UserServiceImpl implements UserService {
 
     public static final String TOKEN_PREFIX = "token_";
 
+    public GalaRes<User> updateInformation(User user){
+        //username不能被更新
+        // email也要进行校验，校验新的email是否存在，并且存在的email如果相同的话，不能是我们当前这个用户的
+        int count = userMapper.checkEmailByUserId(user.getEmail(),user.getId());
+        if (count > 0){
+            return GalaRes.createByErrorMessage("email已存在，请更换email再次尝试更新");
+        }
+        User updateUser = new User();
+        updateUser.setId(user.getId());
+        updateUser.setEmail(user.getEmail());
+        updateUser.setPhone(user.getPhone());
+        updateUser.setQuestion(user.getQuestion());
+        updateUser.setAnswer(user.getAnswer());
+
+        int updateCount = userMapper.updateByPrimaryKeySelective(updateUser);
+        if (updateCount > 0){
+            return GalaRes.createBySuccessMessage("更新个人信息成功");
+        }
+
+        return GalaRes.createByErrorMessage("更新个人信息失败");
+
+    }
+
     @Override
     public GalaRes<String> checkAnswer(String username, String question, String answer) {
         int result = userMapper.checkAnswer(username,question,answer);
