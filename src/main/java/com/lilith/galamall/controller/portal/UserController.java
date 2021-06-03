@@ -36,7 +36,7 @@ public class UserController {
         return res;
     }
 
-    @RequestMapping(value = "/logout.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/logout.do", method = RequestMethod.POST)
     @ResponseBody
     public GalaRes<String> logout(HttpSession session){
         session.removeAttribute(Const.CURRENT_USER);
@@ -44,7 +44,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/register.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/register.do", method = RequestMethod.POST)
     @ResponseBody
     public GalaRes<String> register(User user){
 
@@ -52,14 +52,14 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/check_valid.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/check_valid.do", method = RequestMethod.POST)
     @ResponseBody
     public GalaRes<String> checkValid(String value, String type){
 
         return userService.checkValid(value,type);
     }
 
-    @RequestMapping(value = "/get_user_info.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/get_user_info.do", method = RequestMethod.POST)
     @ResponseBody
     public GalaRes<User> getUserInfo(HttpSession session){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -70,13 +70,13 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/forget_get_question.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/forget_get_question.do", method = RequestMethod.POST)
     @ResponseBody
     public GalaRes<String> forgetGetQuestion(String username){
         return userService.selectQuestion(username);
     }
 
-    @RequestMapping(value = "/forget_check_answer.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/forget_check_answer.do", method = RequestMethod.POST)
     @ResponseBody
     public GalaRes<String> forgetCheckAnswer(String username, String question, String answer){
 
@@ -84,7 +84,7 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/forget_reset_password.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/forget_reset_password.do", method = RequestMethod.POST)
     @ResponseBody
     public GalaRes<String> forgetResetPassword(String username, String password, String forgetToken){
 
@@ -92,7 +92,7 @@ public class UserController {
     }
 
     // 登陆状态重设密码
-    @RequestMapping(value = "/reset_password.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/reset_password.do", method = RequestMethod.POST)
     @ResponseBody
     public GalaRes<String> resetPassword(HttpSession session, String passwordOld, String passwordNew){
 
@@ -105,7 +105,7 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/update_information.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/update_information.do", method = RequestMethod.POST)
     @ResponseBody
     public GalaRes<User> updateInformation(HttpSession session, User user){
         User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
@@ -122,7 +122,7 @@ public class UserController {
         return userGalaRes;
     }
 
-    @RequestMapping(value = "/get_information.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/get_information.do", method = RequestMethod.POST)
     @ResponseBody
     public GalaRes<User> getInformation(HttpSession session){
         User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
