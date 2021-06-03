@@ -2,6 +2,7 @@ package com.lilith.galamall.controller.portal;
 
 import com.lilith.galamall.common.Const;
 import com.lilith.galamall.common.GalaRes;
+import com.lilith.galamall.common.ResponseCode;
 import com.lilith.galamall.entity.User;
 import com.lilith.galamall.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,6 +120,19 @@ public class UserController {
             session.setAttribute(Const.CURRENT_USER,userGalaRes.getData());
         }
         return userGalaRes;
+    }
+
+    @RequestMapping(value = "/get_information.do", method = RequestMethod.GET)
+    @ResponseBody
+    public GalaRes<User> getInformation(HttpSession session){
+        User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
+        if (currentUser == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),"用户未登陆,需要强制登陆status=10");
+
+        }
+
+        return userService.getInformation(currentUser.getId());
+
     }
 
 

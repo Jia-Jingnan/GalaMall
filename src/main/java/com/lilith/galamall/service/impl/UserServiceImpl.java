@@ -26,6 +26,16 @@ public class UserServiceImpl implements UserService {
 
     public static final String TOKEN_PREFIX = "token_";
 
+    public GalaRes<User> getInformation(Integer userId){
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (user == null){
+            return GalaRes.createByErrorMessage("找不到当前用户");
+        }
+
+        user.setPassword(StringUtils.EMPTY);
+        return GalaRes.createBySuccess(user);
+    }
+
     public GalaRes<User> updateInformation(User user){
         //username不能被更新
         // email也要进行校验，校验新的email是否存在，并且存在的email如果相同的话，不能是我们当前这个用户的
