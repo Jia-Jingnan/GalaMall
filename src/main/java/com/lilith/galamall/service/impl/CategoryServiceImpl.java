@@ -1,5 +1,6 @@
 package com.lilith.galamall.service.impl;
 
+import com.google.common.collect.Lists;
 import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.dao.CategoryMapper;
 import com.lilith.galamall.entity.Category;
@@ -10,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
+
 import java.util.List;
+import java.util.Set;
+
+import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * @Author:JiaJingnan
@@ -23,6 +27,37 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+
+    // 递归，算出子节点
+    private Set<Category> findChildrenCategory(Set<Category> categorySet,Integer categoryId){
+        Category category = categoryMapper.selectByPrimaryKey(categoryId);
+        if (category != null){
+            categorySet.add(category);
+        }
+        // 查找子节点,递归算法要有退出的条件
+        List<Category> categoryList = categoryMapper.selectCategoryChildrenByParentId(categoryId);
+        for (Category categoryItem : categoryList) {
+            findChildrenCategory(categorySet,categoryItem.getId());
+        }
+
+        return categorySet;
+    }
+
+    @Override
+    public GalaRes selectCategoryAndChildrenById(Integer categoryId) {
+        Set<Category> categorySet = newHashSet();
+        findChildrenCategory(categorySet,categoryId);
+
+        List<Integer> categoryIdList = Lists.newArrayList();
+        if (categoryId != null){
+            for (Category categoryItem : categorySet) {
+                categoryIdList.add(categoryItem.getId());
+            }
+        }
+
+        return GalaRes.createBySuccess(categoryIdList);
+    }
 
     @Override
     public GalaRes<List<Category>> getChildrenParallelCategory(Integer categoryId) {

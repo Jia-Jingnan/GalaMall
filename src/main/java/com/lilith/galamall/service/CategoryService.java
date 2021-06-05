@@ -16,4 +16,6 @@ public interface CategoryService {
     GalaRes updateCategoryName(Integer categoryId, String categoryName);
 
     GalaRes<List<Category>> getChildrenParallelCategory(Integer categoryId);
+
+    GalaRes selectCategoryAndChildrenById(Integer categoryId);
 }
