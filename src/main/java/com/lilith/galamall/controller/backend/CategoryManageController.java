@@ -31,7 +31,27 @@ public class CategoryManageController {
     private UserService userService;
 
 
-    @RequestMapping(value = "/get_children_parallel_category.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/get_deep_category.do", method = RequestMethod.POST)
+    public GalaRes getCategoryAndDeepChildrenCategory(HttpSession session,
+                                               @RequestParam(value = "categoryId", defaultValue = "0")Integer categoryId){
+
+        // 校验是否登陆
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),"用户未登陆，请登陆");
+        }
+        // 校验是否未管理员
+        if (userService.checkAdmin(user).isSuccess()){
+
+            // 查询当前节点的id和递归子节点的id
+            return categoryService.selectCategoryAndChildrenById(categoryId);
+        } else {
+            return GalaRes.createByErrorMessage("无权限操作，需要管理员登陆");
+        }
+    }
+
+
+    @RequestMapping(value = "/get_category.do", method = RequestMethod.POST)
     public GalaRes getChildrenParallelCategory(HttpSession session,
                                                @RequestParam(value = "categoryId", defaultValue = "0")Integer categoryId){
 
