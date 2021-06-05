@@ -8,10 +8,7 @@ import com.lilith.galamall.service.CategoryService;
 import com.lilith.galamall.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,7 +16,7 @@ import javax.servlet.http.HttpSession;
  * @Author:JiaJingnan
  * @Date: 上午2:05 2021/5/28
  */
-@Controller
+@RestController
 @RequestMapping("/manage/category")
 public class CategoryManageController {
 
@@ -31,7 +28,7 @@ public class CategoryManageController {
     private UserService userService;
 
 
-    @RequestMapping(value = "/get_deep_category.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/get_deep_category.do")
     public GalaRes getCategoryAndDeepChildrenCategory(HttpSession session,
                                                @RequestParam(value = "categoryId", defaultValue = "0")Integer categoryId){
 
@@ -51,7 +48,7 @@ public class CategoryManageController {
     }
 
 
-    @RequestMapping(value = "/get_category.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/get_category.do")
     public GalaRes getChildrenParallelCategory(HttpSession session,
                                                @RequestParam(value = "categoryId", defaultValue = "0")Integer categoryId){
 
@@ -72,7 +69,7 @@ public class CategoryManageController {
 
 
 
-    @RequestMapping(value = "/update_category.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/update_category.do")
     public GalaRes updateCategoryName(HttpSession session, Integer categoryId, String categoryName){
 
         // 校验是否登陆
@@ -91,7 +88,7 @@ public class CategoryManageController {
     }
 
 
-    @RequestMapping(value = "/add_category.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/add_category.do")
     public GalaRes addCategory(HttpSession session, String categoryName,
                                @RequestParam(value = "parentId", defaultValue = "0") int paraentId){
         // 校验是否登陆
