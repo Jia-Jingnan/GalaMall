@@ -19,6 +19,25 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryMapper categoryMapper;
 
     @Override
+    public GalaRes updateCategoryName(Integer categoryId, String categoryName) {
+
+        if (categoryId == null && StringUtils.isBlank(categoryName)){
+            return GalaRes.createByErrorMessage("更新分类参数错误");
+        }
+
+        Category category = new Category();
+        category.setId(categoryId);
+        category.setName(categoryName);
+
+        int count = categoryMapper.updateByPrimaryKey(category);
+        if (count > 0){
+            return GalaRes.createBySuccess("更新分类成功");
+        }
+
+        return GalaRes.createByErrorMessage("更新分类失败");
+    }
+
+    @Override
     public GalaRes addCategory(String categoryName, Integer parentId) {
         if (parentId == null && StringUtils.isBlank(categoryName)){
             return GalaRes.createByErrorMessage("添加分类参数错误");
