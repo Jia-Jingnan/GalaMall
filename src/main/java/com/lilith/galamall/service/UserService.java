@@ -26,4 +26,6 @@ public interface UserService {
     GalaRes<User> updateInformation(User user);
 
     GalaRes<User> getInformation(Integer userId);
+
+    GalaRes checkAdmin(User user);
 }

@@ -26,6 +26,8 @@ public class UserServiceImpl implements UserService {
 
     public static final String TOKEN_PREFIX = "token_";
 
+
+    @Override
     public GalaRes<User> getInformation(Integer userId){
         User user = userMapper.selectByPrimaryKey(userId);
         if (user == null){
@@ -35,6 +37,15 @@ public class UserServiceImpl implements UserService {
         user.setPassword(StringUtils.EMPTY);
         return GalaRes.createBySuccess(user);
     }
+
+    @Override
+    public GalaRes checkAdmin(User user) {
+        if (user != null && user.getRole().intValue() == Const.Role.ROLE_ADMIN){
+            return GalaRes.createBySuccess();
+        }
+        return GalaRes.createByError();
+    }
+
 
     public GalaRes<User> updateInformation(User user){
         //username不能被更新
