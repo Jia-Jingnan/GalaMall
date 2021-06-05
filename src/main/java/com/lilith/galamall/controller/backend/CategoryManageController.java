@@ -6,7 +6,6 @@ import com.lilith.galamall.common.ResponseCode;
 import com.lilith.galamall.entity.User;
 import com.lilith.galamall.service.CategoryService;
 import com.lilith.galamall.service.UserService;
-import javafx.scene.Parent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +31,27 @@ public class CategoryManageController {
     private UserService userService;
 
 
+    @RequestMapping(value = "/get_children_parallel_category.do", method = RequestMethod.POST)
+    public GalaRes getChildrenParallelCategory(HttpSession session,
+                                               @RequestParam(value = "categoryId", defaultValue = "0")Integer categoryId){
+
+        // 校验是否登陆
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),"用户未登陆，请登陆");
+        }
+        // 校验是否未管理员
+        if (userService.checkAdmin(user).isSuccess()){
+
+            // 增加子节点的category信息，并且不递归，保持平级
+            return categoryService.getChildrenParallelCategory(categoryId);
+        } else {
+            return GalaRes.createByErrorMessage("无权限操作，需要管理员登陆");
+        }
+    }
+
+
+
     @RequestMapping(value = "/update_category.do", method = RequestMethod.POST)
     public GalaRes updateCategoryName(HttpSession session, Integer categoryId, String categoryName){
 
@@ -43,7 +63,7 @@ public class CategoryManageController {
         // 校验是否未管理员
         if (userService.checkAdmin(user).isSuccess()){
 
-            // 增加分类操作
+            // 增加更新操作
             return categoryService.updateCategoryName(categoryId, categoryName);
         } else {
             return GalaRes.createByErrorMessage("无权限操作，需要管理员登陆");
