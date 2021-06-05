@@ -82,6 +82,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.lilith.galamall.entity.Category" >
     update galamall_category
     <set >
@@ -106,6 +107,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.lilith.galamall.entity.Category" >
     update galamall_category
     set parent_id = #{parentId,jdbcType=INTEGER},
@@ -116,4 +118,12 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectCategoryChildrenByParentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from galamall_category
+    where parent_id = #{parentId}
+  </select>
+
 </mapper>
