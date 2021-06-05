@@ -4,19 +4,34 @@ import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.dao.CategoryMapper;
 import com.lilith.galamall.entity.Category;
 import com.lilith.galamall.service.CategoryService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @Author:JiaJingnan
  * @Date: 上午9:54 2021/6/5
  */
 @Service
+@Slf4j
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @Override
+    public GalaRes<List<Category>> getChildrenParallelCategory(Integer categoryId) {
+        List<Category> categoryList = categoryMapper.selectCategoryChildrenByParentId(categoryId);
+        if (CollectionUtils.isEmpty(categoryList)){
+            log.info("未找到当前分类的子分类");
+        }
+        return GalaRes.createBySuccess(categoryList);
+    }
 
     @Override
     public GalaRes updateCategoryName(Integer categoryId, String categoryName) {
