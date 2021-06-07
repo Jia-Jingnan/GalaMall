@@ -64,4 +64,23 @@ public class ProductManageController {
             return GalaRes.createByErrorMessage("无权限操作，需要管理员登陆");
         }
     }
+
+    @RequestMapping("/detail.do")
+    public GalaRes getDetail(HttpSession session, Integer productId, Integer status){
+        // 校验是否登陆
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),"用户未登陆，请登陆");
+        }
+
+        // 校验是否未管理员
+        if (userService.checkAdmin(user).isSuccess()){
+
+            // 增加商品保存操作
+            return productService.manageProductDetail(productId);
+
+        } else {
+            return GalaRes.createByErrorMessage("无权限操作，需要管理员登陆");
+        }
+    }
 }
