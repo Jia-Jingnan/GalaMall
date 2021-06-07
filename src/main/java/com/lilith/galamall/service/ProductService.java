@@ -2,6 +2,7 @@ package com.lilith.galamall.service;
 
 import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.entity.Product;
+import com.lilith.galamall.vo.ProductDetailVo;
 
 /**
  * @Author:JiaJingnan
@@ -12,4 +13,6 @@ public interface ProductService {
     GalaRes saveOrUpdateProduct(Product product);
 
     GalaRes setSaleStatus(Integer productId, Integer status);
+
+    GalaRes<ProductDetailVo> manageProductDetail(Integer productId);
 }

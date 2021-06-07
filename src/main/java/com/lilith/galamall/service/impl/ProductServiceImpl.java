@@ -28,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
     private CategoryMapper categoryMapper;
 
     @Override
-    public GalaRes<Object> manageProductDetail(Integer productId) {
+    public GalaRes<ProductDetailVo> manageProductDetail(Integer productId) {
         if (productId == null){
             return GalaRes.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARRGUMENT.getCode(), ResponseCode.ILLEGAL_ARRGUMENT.getDesc());
         }
@@ -37,8 +37,8 @@ public class ProductServiceImpl implements ProductService {
             return GalaRes.createByErrorMessage("产品已下架或删除");
         }
 
-        ProductDetailVo productDetailVo = new ProductDetailVo();
-        return null;
+        ProductDetailVo productDetailVo = assembleProductDetailVo(product);
+        return GalaRes.createBySuccess(productDetailVo);
     }
 
     private ProductDetailVo assembleProductDetailVo(Product product){
