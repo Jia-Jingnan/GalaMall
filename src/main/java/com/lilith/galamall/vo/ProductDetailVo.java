@@ -16,7 +16,7 @@ public class ProductDetailVo {
     private String name;
     private String subtitle;
     private String mainImage;
-    private String subImage;
+    private String subImages;
     private String detail;
     private BigDecimal price;
     private Integer stock;
