@@ -10,4 +10,6 @@ import com.lilith.galamall.entity.Product;
 public interface ProductService {
 
     GalaRes saveOrUpdateProduct(Product product);
+
+    GalaRes setSaleStatus(Integer productId, Integer status);
 }

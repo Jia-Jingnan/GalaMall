@@ -1,6 +1,7 @@
 package com.lilith.galamall.service.impl;
 
 import com.lilith.galamall.common.GalaRes;
+import com.lilith.galamall.common.ResponseCode;
 import com.lilith.galamall.dao.ProductMapper;
 import com.lilith.galamall.entity.Product;
 import com.lilith.galamall.service.ProductService;
@@ -17,6 +18,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductMapper productMapper;
+
+    @Override
+    public GalaRes setSaleStatus(Integer productId, Integer status) {
+        if (productId == null || status == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARRGUMENT.getCode(), ResponseCode.ILLEGAL_ARRGUMENT.getDesc());
+        }
+        Product product = new Product();
+        product.setId(productId);
+        product.setStatus(status);
+        int count = productMapper.updateByPrimaryKeySelective(product);
+        if (count > 0){
+            return GalaRes.createBySuccess("修改产品可售状态成功");
+        }
+        return GalaRes.createByErrorMessage("修改产品可售状态失败");
+    }
+
 
     public GalaRes saveOrUpdateProduct(Product product){
         if (product != null){
