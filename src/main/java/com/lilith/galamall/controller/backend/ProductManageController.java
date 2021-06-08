@@ -9,6 +9,7 @@ import com.lilith.galamall.service.ProductService;
 import com.lilith.galamall.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -57,7 +58,7 @@ public class ProductManageController {
         // 校验是否未管理员
         if (userService.checkAdmin(user).isSuccess()){
 
-            // 增加商品保存操作
+            // 增加业务操作
             return productService.setSaleStatus(productId, status);
 
         } else {
@@ -76,11 +77,34 @@ public class ProductManageController {
         // 校验是否未管理员
         if (userService.checkAdmin(user).isSuccess()){
 
-            // 增加商品保存操作
+            // 增加业务操作
             return productService.manageProductDetail(productId);
 
         } else {
             return GalaRes.createByErrorMessage("无权限操作，需要管理员登陆");
         }
     }
+
+    @RequestMapping("/list.do")
+    public GalaRes getList(HttpSession session,
+                           @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                           @RequestParam(value = "pageSize", defaultValue = "10")int pageSize){
+        // 校验是否登陆
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),"用户未登陆，请登陆");
+        }
+
+        // 校验是否未管理员
+        if (userService.checkAdmin(user).isSuccess()){
+
+            // 增加商品保存操作
+            return productService.getProductList(pageNum,pageSize);
+
+        } else {
+            return GalaRes.createByErrorMessage("无权限操作，需要管理员登陆");
+        }
+    }
+
+
 }
