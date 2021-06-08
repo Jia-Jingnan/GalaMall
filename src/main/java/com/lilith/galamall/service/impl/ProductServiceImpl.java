@@ -1,5 +1,8 @@
 package com.lilith.galamall.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.common.ResponseCode;
 import com.lilith.galamall.dao.CategoryMapper;
@@ -10,9 +13,12 @@ import com.lilith.galamall.service.ProductService;
 import com.lilith.galamall.util.DateTimeUtil;
 import com.lilith.galamall.util.PropertiesUtil;
 import com.lilith.galamall.vo.ProductDetailVo;
+import com.lilith.galamall.vo.ProductListVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Author:JiaJingnan
@@ -26,6 +32,39 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @Override
+    public GalaRes<PageInfo> getProductList(int pageNum, int pageSize) {
+
+        // startPage -- start
+        // 填充sql逻辑
+        // pageHelper -- 收尾
+        PageHelper.startPage(pageNum,pageSize);
+        List<Product> productList = productMapper.selectList();
+        List<ProductListVO> productListVOList = Lists.newArrayList();
+        for (Product productItem : productList){
+            ProductListVO productListVO = assembleProductListVO(productItem);
+            productListVOList.add(productListVO);
+        }
+
+        PageInfo pageResult = new PageInfo(productList);
+        pageResult.setList(productListVOList);
+
+        return GalaRes.createBySuccess(pageResult);
+    }
+
+    private ProductListVO assembleProductListVO(Product product){
+        ProductListVO productListVO = new ProductListVO();
+        productListVO.setId(product.getId());
+        productListVO.setName(product.getName());
+        productListVO.setCategoryId(product.getCategoryId());
+        productListVO.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix"));
+        productListVO.setMainImage(product.getMainImage());
+        productListVO.setPrice(product.getPrice());
+        productListVO.setSubtitle(product.getSubtitle());
+        productListVO.setStatus(product.getStatus());
+        return productListVO;
+    }
 
     @Override
     public GalaRes<ProductDetailVo> manageProductDetail(Integer productId) {

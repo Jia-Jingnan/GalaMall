@@ -1,5 +1,6 @@
 package com.lilith.galamall.service;
 
+import com.github.pagehelper.PageInfo;
 import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.entity.Product;
 import com.lilith.galamall.vo.ProductDetailVo;
@@ -15,4 +16,6 @@ public interface ProductService {
     GalaRes setSaleStatus(Integer productId, Integer status);
 
     GalaRes<ProductDetailVo> manageProductDetail(Integer productId);
+
+    GalaRes<PageInfo> getProductList(int pageNum, int pageSize);
 }
