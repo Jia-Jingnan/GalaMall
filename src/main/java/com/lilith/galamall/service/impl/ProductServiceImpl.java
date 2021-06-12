@@ -34,6 +34,26 @@ public class ProductServiceImpl implements ProductService {
     private CategoryMapper categoryMapper;
 
     @Override
+    public GalaRes<PageInfo> productSearch(String productName, Integer productId, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        if (StringUtils.isNoneBlank(productName)){
+            // 构造查询条件 %productName%
+            productName = new StringBuilder().append("%").append(productName).append("%").toString();
+        }
+        List<Product> productList = productMapper.selectByNameAndProductId(productName,productId);
+        List<ProductListVO> productListVOList = Lists.newArrayList();
+        for (Product productItem : productList){
+            ProductListVO productListVO = assembleProductListVO(productItem);
+            productListVOList.add(productListVO);
+        }
+
+        PageInfo pageResult = new PageInfo(productList);
+        pageResult.setList(productListVOList);
+
+        return GalaRes.createBySuccess(pageResult);
+    }
+
+    @Override
     public GalaRes<PageInfo> getProductList(int pageNum, int pageSize) {
 
         // startPage -- start
