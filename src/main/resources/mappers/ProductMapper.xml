@@ -184,5 +184,22 @@
     ORDER BY id ASC
   </select>
 
+  <select id="selectByNameAndProductId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from galamall_product
+    <where>
+      <if test="productName != null">
+        AND name LIKE #{productName}
+      </if>
+      <if test="productId != null">
+        AND id=#{productId}
+      </if>
+    </where>
+  </select>
+
+
+
+
 
 </mapper>
