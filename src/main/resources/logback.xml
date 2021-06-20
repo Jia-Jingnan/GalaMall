@@ -12,9 +12,9 @@
 
     <appender name="galamall" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<File>d:/galamall/galamall.log</File>-->
-        <File>/Users/jingnan/code/01-Github/galamall/logs/galamall.log</File>
+        <File>/Users/jingnan/github/galamall/logs/galamall.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/Users/jingnan/code/01-Github/galamall/logs/galamall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>/Users/jingnan/code/github/galamall/logs/galamall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
             <maxHistory>10</maxHistory>
         </rollingPolicy>
@@ -26,9 +26,9 @@
 
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<File>d:/galamalllog/error.log</File>-->
-        <File>/Users/jingnan/code/01-Github/galamall/logs/error.log</File>
+        <File>/Users/jingnan/github/galamall/logs/error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/Users/jingnan/code/01-Github/galamall/logs/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>/Users/jingnan/github/galamall/logs/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <!--<fileNamePattern>d:/galamalllog/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>-->
             <append>true</append>
             <maxHistory>10</maxHistory>
