@@ -3,6 +3,7 @@ package com.lilith.galamall.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.lilith.galamall.common.Const;
 import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.common.ResponseCode;
 import com.lilith.galamall.dao.CategoryMapper;
@@ -32,6 +33,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @Override
+    public GalaRes<ProductDetailVo> getProductDetail(Integer productId) {
+
+        if (productId == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARRGUMENT.getCode(), ResponseCode.ILLEGAL_ARRGUMENT.getDesc());
+        }
+        Product product = productMapper.selectByPrimaryKey(productId);
+        if (product == null){
+            return GalaRes.createByErrorMessage("产品已下架或删除");
+        }
+
+        if (product.getStatus() != Const.ProductStatusEnum.ON_SALE.getCode()){
+            return GalaRes.createByErrorMessage("产品已下架或删除");
+        }
+
+        ProductDetailVo productDetailVo = assembleProductDetailVo(product);
+        return GalaRes.createBySuccess(productDetailVo);
+    }
 
     @Override
     public GalaRes<PageInfo> productSearch(String productName, Integer productId, int pageNum, int pageSize) {

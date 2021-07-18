@@ -20,4 +20,6 @@ public interface ProductService {
     GalaRes<PageInfo> getProductList(int pageNum, int pageSize);
 
     GalaRes<PageInfo> productSearch(String productName, Integer productId, int pageNum, int pageSize);
+
+    GalaRes<ProductDetailVo> getProductDetail(Integer productId);
 }
