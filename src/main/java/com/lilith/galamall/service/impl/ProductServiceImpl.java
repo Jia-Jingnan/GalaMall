@@ -2,6 +2,7 @@ package com.lilith.galamall.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.StringUtil;
 import com.google.common.collect.Lists;
 import com.lilith.galamall.common.Const;
 import com.lilith.galamall.common.GalaRes;
@@ -10,15 +11,18 @@ import com.lilith.galamall.dao.CategoryMapper;
 import com.lilith.galamall.dao.ProductMapper;
 import com.lilith.galamall.entity.Category;
 import com.lilith.galamall.entity.Product;
+import com.lilith.galamall.service.CategoryService;
 import com.lilith.galamall.service.ProductService;
 import com.lilith.galamall.util.DateTimeUtil;
 import com.lilith.galamall.util.PropertiesUtil;
 import com.lilith.galamall.vo.ProductDetailVo;
 import com.lilith.galamall.vo.ProductListVO;
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +37,61 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Override
+    public GalaRes<PageInfo> getProductByKeywordAndCategory(String keyword, Integer categoryId, int pageNum, int pageSize, String orderBy) {
+
+        // 判断参数
+        if (StringUtils.isBlank(keyword) && categoryId == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARRGUMENT.getCode(), ResponseCode.ILLEGAL_ARRGUMENT.getDesc());
+        }
+
+        // 声明一个集合
+        List<Integer> categoryIdList = new ArrayList<>();
+
+        if (categoryId != null){
+            Category category = categoryMapper.selectByPrimaryKey(categoryId);
+            if (category == null && StringUtils.isBlank(keyword)){
+                // 没有该分类，并且没有关键字，这个时候返回一个空的结果，不报错
+                PageHelper.startPage(pageNum, pageSize);
+                List<ProductListVO> productListVOList = Lists.newArrayList();
+                PageInfo pageInfo = new PageInfo(productListVOList);
+                return GalaRes.createBySuccess(pageInfo);
+            }
+
+            categoryIdList = categoryService.selectCategoryAndChildrenById(category.getId()).getData();
+
+        }
+
+        if (StringUtils.isNotBlank(keyword)){
+            keyword = new StringBuilder().append("%").append(keyword).append("%").toString();
+        }
+
+        PageHelper.startPage(pageNum, pageSize);
+        // 排序处理
+        if (StringUtils.isNotBlank(orderBy)){
+            // 动态排序
+            if (Const.ProductListOrderBy.PRICE_ASC_DESC.contains(orderBy)){
+                String[] orderByArray = orderBy.split("_");
+                PageHelper.orderBy(orderByArray[0] + " " + orderByArray[1]);
+            }
+        }
+        List<Product> productList = productMapper.selectByNameAndCategoryIds(StringUtils.isBlank(keyword)?null:keyword,
+                categoryIdList.size()==0?null:categoryIdList);
+
+        List<ProductListVO> productListVOList = Lists.newArrayList();
+        for (Product product : productList){
+            ProductListVO productListVO = assembleProductListVO(product);
+            productListVOList.add(productListVO);
+        }
+
+        PageInfo pageInfo = new PageInfo(productList);
+        pageInfo.setList(productListVOList);
+        return GalaRes.createBySuccess(pageInfo);
+    }
 
     @Override
     public GalaRes<ProductDetailVo> getProductDetail(Integer productId) {

@@ -22,4 +22,6 @@ public interface ProductService {
     GalaRes<PageInfo> productSearch(String productName, Integer productId, int pageNum, int pageSize);
 
     GalaRes<ProductDetailVo> getProductDetail(Integer productId);
+
+    GalaRes<PageInfo> getProductByKeywordAndCategory(String keyword, Integer categoryId, int pageNum, int pageSize, String orderBy);
 }
