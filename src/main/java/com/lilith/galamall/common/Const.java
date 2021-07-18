@@ -1,5 +1,9 @@
 package com.lilith.galamall.common;
 
+import com.google.common.collect.Sets;
+
+import java.util.Set;
+
 /**
  * @Author:JiaJingnan
  * @Date: 上午2:45 2021/5/28
@@ -10,6 +14,10 @@ public class Const {
     public static final String EMAIL = "email";
     public static final String USERNAME = "username";
     public static final String CURRENT_USER = "currentUser";
+
+    public interface ProductListOrderBy{
+        Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc", "price_asc");
+    }
 
     public interface Role{
         int ROLE_CUSTOMER = 0; //普通用户
