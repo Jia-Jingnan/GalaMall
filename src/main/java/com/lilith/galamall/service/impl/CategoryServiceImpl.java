@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public GalaRes selectCategoryAndChildrenById(Integer categoryId) {
+    public GalaRes<List<Integer>> selectCategoryAndChildrenById(Integer categoryId) {
         Set<Category> categorySet = newHashSet();
         findChildrenCategory(categorySet,categoryId);
 

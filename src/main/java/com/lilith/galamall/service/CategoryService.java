@@ -17,5 +17,5 @@ public interface CategoryService {
 
     GalaRes<List<Category>> getChildrenParallelCategory(Integer categoryId);
 
-    GalaRes selectCategoryAndChildrenById(Integer categoryId);
+    GalaRes<List<Integer>> selectCategoryAndChildrenById(Integer categoryId);
 }
