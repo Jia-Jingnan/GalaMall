@@ -25,5 +25,15 @@ public class ProductController {
         return productService.getProductDetail(productId);
     }
 
+    @RequestMapping("list.do")
+    public GalaRes<PageInfo> list(@RequestParam(value = "keyword", required = false) String keyword,
+                                  @RequestParam(value = "categoryId", required = false) Integer categoryId,
+                                  @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                  @RequestParam(value = "pageSize", defaultValue = "10")int pageSize,
+                                  @RequestParam(value = "orderBy", defaultValue = "")String orderBy){
+
+        return productService.getProductByKeywordAndCategory(keyword, categoryId, pageNum, pageSize, orderBy);
+    }
+
 
 }
