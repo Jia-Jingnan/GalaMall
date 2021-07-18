@@ -138,15 +138,31 @@ public class ProductManageController {
 
 
     @RequestMapping("/upload.do")
-    public GalaRes upload(MultipartFile file, HttpServletRequest request){
+    public GalaRes upload(HttpSession session, MultipartFile file, HttpServletRequest request){
 
-        String path = request.getSession().getServletContext().getRealPath("upload");
-        String targetFileName = fileService.upload(file, path);
-        String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
-        Map fileMap = Maps.newHashMap();
-        fileMap.put("uri", targetFileName);
-        fileMap.put("url", url);
-        return GalaRes.createBySuccess(fileMap);
+        // 权限判断
+        // 校验是否登陆
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),"用户未登陆，请登陆");
+        }
+
+        // 校验是否未管理员
+        if (userService.checkAdmin(user).isSuccess()){
+
+            String path = request.getSession().getServletContext().getRealPath("upload");
+            String targetFileName = fileService.upload(file, path);
+            String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
+            Map fileMap = Maps.newHashMap();
+            fileMap.put("uri", targetFileName);
+            fileMap.put("url", url);
+            return GalaRes.createBySuccess(fileMap);
+
+        } else {
+            return GalaRes.createByErrorMessage("无权限操作，需要管理员登陆");
+        }
+
+
     }
 
 
