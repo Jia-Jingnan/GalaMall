@@ -1,18 +1,24 @@
 package com.lilith.galamall.controller.backend;
 
+import com.google.common.collect.Maps;
 import com.lilith.galamall.common.Const;
 import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.common.ResponseCode;
 import com.lilith.galamall.entity.Product;
 import com.lilith.galamall.entity.User;
+import com.lilith.galamall.service.FileService;
 import com.lilith.galamall.service.ProductService;
 import com.lilith.galamall.service.UserService;
+import com.lilith.galamall.util.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * @Author:JiaJingnan
@@ -27,6 +33,9 @@ public class ProductManageController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FileService fileService;
 
     @RequestMapping("/save.do")
     public GalaRes productSave(HttpSession session, Product product){
@@ -126,6 +135,22 @@ public class ProductManageController {
             return GalaRes.createByErrorMessage("无权限操作，需要管理员登陆");
         }
     }
+
+
+    @RequestMapping("/upload.do")
+    public GalaRes upload(MultipartFile file, HttpServletRequest request){
+
+        String path = request.getSession().getServletContext().getRealPath("upload");
+        String targetFileName = fileService.upload(file, path);
+        String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
+        Map fileMap = Maps.newHashMap();
+        fileMap.put("uri", targetFileName);
+        fileMap.put("url", url);
+        return GalaRes.createBySuccess(fileMap);
+    }
+
+
+
 
 
 
