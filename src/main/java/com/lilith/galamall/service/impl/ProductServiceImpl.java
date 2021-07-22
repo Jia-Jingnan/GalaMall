@@ -2,7 +2,6 @@ package com.lilith.galamall.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.StringUtil;
 import com.google.common.collect.Lists;
 import com.lilith.galamall.common.Const;
 import com.lilith.galamall.common.GalaRes;
@@ -15,10 +14,9 @@ import com.lilith.galamall.service.CategoryService;
 import com.lilith.galamall.service.ProductService;
 import com.lilith.galamall.util.DateTimeUtil;
 import com.lilith.galamall.util.PropertiesUtil;
-import com.lilith.galamall.vo.ProductDetailVo;
+import com.lilith.galamall.vo.ProductDetailVO;
 import com.lilith.galamall.vo.ProductListVO;
 import org.apache.commons.lang3.StringUtils;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -94,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public GalaRes<ProductDetailVo> getProductDetail(Integer productId) {
+    public GalaRes<ProductDetailVO> getProductDetail(Integer productId) {
 
         if (productId == null){
             return GalaRes.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARRGUMENT.getCode(), ResponseCode.ILLEGAL_ARRGUMENT.getDesc());
@@ -108,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
             return GalaRes.createByErrorMessage("产品已下架或删除");
         }
 
-        ProductDetailVo productDetailVo = assembleProductDetailVo(product);
+        ProductDetailVO productDetailVo = assembleProductDetailVo(product);
         return GalaRes.createBySuccess(productDetailVo);
     }
 
@@ -166,7 +164,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public GalaRes<ProductDetailVo> manageProductDetail(Integer productId) {
+    public GalaRes<ProductDetailVO> manageProductDetail(Integer productId) {
         if (productId == null){
             return GalaRes.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARRGUMENT.getCode(), ResponseCode.ILLEGAL_ARRGUMENT.getDesc());
         }
@@ -175,12 +173,12 @@ public class ProductServiceImpl implements ProductService {
             return GalaRes.createByErrorMessage("产品已下架或删除");
         }
 
-        ProductDetailVo productDetailVo = assembleProductDetailVo(product);
+        ProductDetailVO productDetailVo = assembleProductDetailVo(product);
         return GalaRes.createBySuccess(productDetailVo);
     }
 
-    private ProductDetailVo assembleProductDetailVo(Product product){
-        ProductDetailVo productDetailVo = new ProductDetailVo();
+    private ProductDetailVO assembleProductDetailVo(Product product){
+        ProductDetailVO productDetailVo = new ProductDetailVO();
         productDetailVo.setId(product.getId());
         productDetailVo.setSubtitle(product.getSubtitle());
         productDetailVo.setPrice(product.getPrice());

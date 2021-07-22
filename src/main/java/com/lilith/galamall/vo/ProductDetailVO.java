@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * @Date: 下午11:42 2021/6/7
  */
 @Data
-public class ProductDetailVo {
+public class ProductDetailVO {
 
     private Integer id;
     private Integer categoryId;

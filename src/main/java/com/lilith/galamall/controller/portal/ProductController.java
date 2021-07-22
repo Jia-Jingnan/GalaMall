@@ -3,7 +3,7 @@ package com.lilith.galamall.controller.portal;
 import com.github.pagehelper.PageInfo;
 import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.service.ProductService;
-import com.lilith.galamall.vo.ProductDetailVo;
+import com.lilith.galamall.vo.ProductDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +21,7 @@ public class ProductController {
     private ProductService productService;
 
     @RequestMapping("detail.do")
-    public GalaRes<ProductDetailVo> detail(Integer productId){
+    public GalaRes<ProductDetailVO> detail(Integer productId){
         return productService.getProductDetail(productId);
     }
 

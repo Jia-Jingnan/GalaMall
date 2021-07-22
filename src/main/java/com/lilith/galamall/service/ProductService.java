@@ -3,7 +3,7 @@ package com.lilith.galamall.service;
 import com.github.pagehelper.PageInfo;
 import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.entity.Product;
-import com.lilith.galamall.vo.ProductDetailVo;
+import com.lilith.galamall.vo.ProductDetailVO;
 
 /**
  * @Author:JiaJingnan
@@ -15,13 +15,13 @@ public interface ProductService {
 
     GalaRes setSaleStatus(Integer productId, Integer status);
 
-    GalaRes<ProductDetailVo> manageProductDetail(Integer productId);
+    GalaRes<ProductDetailVO> manageProductDetail(Integer productId);
 
     GalaRes<PageInfo> getProductList(int pageNum, int pageSize);
 
     GalaRes<PageInfo> productSearch(String productName, Integer productId, int pageNum, int pageSize);
 
-    GalaRes<ProductDetailVo> getProductDetail(Integer productId);
+    GalaRes<ProductDetailVO> getProductDetail(Integer productId);
 
     GalaRes<PageInfo> getProductByKeywordAndCategory(String keyword, Integer categoryId, int pageNum, int pageSize, String orderBy);
 }
