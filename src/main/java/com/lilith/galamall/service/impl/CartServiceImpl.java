@@ -3,6 +3,7 @@ package com.lilith.galamall.service.impl;
 import com.google.common.collect.Lists;
 import com.lilith.galamall.common.Const;
 import com.lilith.galamall.common.GalaRes;
+import com.lilith.galamall.common.ResponseCode;
 import com.lilith.galamall.dao.CartMapper;
 import com.lilith.galamall.dao.ProductMapper;
 import com.lilith.galamall.entity.Cart;
@@ -33,6 +34,11 @@ public class CartServiceImpl implements CartService {
     private ProductMapper productMapper;
 
     public GalaRes<CartVO> add(Integer userId, Integer productId, Integer count){
+
+        if (productId == null || count == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARRGUMENT.getCode(),
+                    ResponseCode.ILLEGAL_ARRGUMENT.getDesc());
+        }
         Cart cart = cartMapper.selectCartByUserIdProductId(userId, productId);
         if (cart == null){
             // 这个产品不在购物车中，需要新增一个这个产品的记录
