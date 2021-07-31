@@ -6,6 +6,7 @@ import com.lilith.galamall.common.ResponseCode;
 import com.lilith.galamall.entity.User;
 import com.lilith.galamall.service.CartService;
 import com.lilith.galamall.service.impl.UserServiceImpl;
+import com.lilith.galamall.vo.CartVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +24,7 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    public GalaRes add(HttpSession session, Integer count, Integer productId){
+    public GalaRes<CartVO> add(HttpSession session, Integer count, Integer productId){
         // 权限判断
         // 校验是否登陆
         User user = (User) session.getAttribute(Const.CURRENT_USER);
