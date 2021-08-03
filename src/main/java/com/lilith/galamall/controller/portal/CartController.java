@@ -38,5 +38,19 @@ public class CartController {
 
     }
 
+    @RequestMapping("update.do")
+    public GalaRes<CartVO> update(HttpSession session, Integer count, Integer productId){
+        // 权限判断
+        // 校验是否登陆
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),ResponseCode.NEEG_LOGIN.getDesc());
+        }
+
+        // 购物车核心逻辑
+        return cartService.update(user.getId(),productId,count);
+
+    }
+
 
 }

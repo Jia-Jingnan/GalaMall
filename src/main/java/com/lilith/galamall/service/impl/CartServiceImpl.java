@@ -60,7 +60,26 @@ public class CartServiceImpl implements CartService {
         return GalaRes.createBySuccess(cartVO);
     }
 
-    // 购物车计算
+    //更新购物车方法
+    public GalaRes<CartVO> update(Integer userId, Integer productId, Integer count){
+        if (productId == null || count == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARRGUMENT.getCode(),
+                    ResponseCode.ILLEGAL_ARRGUMENT.getDesc());
+        }
+
+        Cart cart = cartMapper.selectCartByUserIdProductId(userId,productId);
+
+        if (cart != null){
+            cart.setQuantity(count);
+        }
+        // 更新购物车
+        cartMapper.updateByPrimaryKeySelective(cart);
+
+        CartVO cartVO = this.getCartVOLimit(userId);
+        return GalaRes.createBySuccess(cartVO);
+    }
+
+    // 购物车核心方法
     private CartVO getCartVOLimit(Integer userId){
         CartVO cartVO = new CartVO();
         List<Cart> cartList = cartMapper.selectCartByUserId(userId);
