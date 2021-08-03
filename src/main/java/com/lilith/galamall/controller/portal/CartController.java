@@ -24,6 +24,7 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
+    @RequestMapping("add.do")
     public GalaRes<CartVO> add(HttpSession session, Integer count, Integer productId){
         // 权限判断
         // 校验是否登陆
@@ -36,4 +37,6 @@ public class CartController {
         return cartService.add(user.getId(),productId,count);
 
     }
+
+
 }
