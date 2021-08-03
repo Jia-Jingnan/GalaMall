@@ -13,4 +13,6 @@ public interface CartService {
     GalaRes<CartVO> add(Integer userId, Integer productId, Integer count);
 
     GalaRes<CartVO> update(Integer userId, Integer productId, Integer count);
+
+    GalaRes<CartVO> deleteProduct(Integer userId, String productIds);
 }

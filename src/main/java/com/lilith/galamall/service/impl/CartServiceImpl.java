@@ -1,5 +1,6 @@
 package com.lilith.galamall.service.impl;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.lilith.galamall.common.Const;
 import com.lilith.galamall.common.GalaRes;
@@ -77,6 +78,21 @@ public class CartServiceImpl implements CartService {
 
         CartVO cartVO = this.getCartVOLimit(userId);
         return GalaRes.createBySuccess(cartVO);
+    }
+
+
+    // 删除购物车
+    public GalaRes<CartVO> deleteProduct(Integer userId, String productIds){
+        List<String> productList = Splitter.on(",").splitToList(productIds);
+        if (productList == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARRGUMENT.getCode(),
+                    ResponseCode.ILLEGAL_ARRGUMENT.getDesc());
+        }
+
+        cartMapper.deleteByUserIdProductIds(userId,productList);
+        CartVO cartVO = this.getCartVOLimit(userId);
+        return GalaRes.createBySuccess(cartVO);
+
     }
 
     // 购物车核心方法

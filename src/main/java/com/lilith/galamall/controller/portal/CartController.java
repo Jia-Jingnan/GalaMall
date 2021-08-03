@@ -52,5 +52,19 @@ public class CartController {
 
     }
 
+    @RequestMapping("delete_product.do")
+    public GalaRes<CartVO> deleteProduct(HttpSession session, String productIds){
+        // 权限判断
+        // 校验是否登陆
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),ResponseCode.NEEG_LOGIN.getDesc());
+        }
+
+        // 购物车核心逻辑
+        return cartService.deleteProduct(user.getId(),productIds);
+
+    }
+
 
 }
