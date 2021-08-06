@@ -49,7 +49,7 @@ public class CartController {
         }
 
         // 购物车核心逻辑
-        return cartService.selectOrUnselect(user.getId(), Const.Cart.CHECKED);
+        return cartService.selectOrUnselect(user.getId(), null, Const.Cart.CHECKED);
 
     }
 
@@ -64,14 +64,40 @@ public class CartController {
         }
 
         // 购物车核心逻辑
-        return cartService.selectOrUnselect(user.getId(), Const.Cart.UN_CHECKED);
+        return cartService.selectOrUnselect(user.getId(), null, Const.Cart.UN_CHECKED);
 
     }
 
     // 单独选
+    @RequestMapping("select.do")
+    public GalaRes<CartVO> select(HttpSession session, Integer productId){
+        // 权限判断
+        // 校验是否登陆
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),ResponseCode.NEEG_LOGIN.getDesc());
+        }
+
+        // 购物车核心逻辑
+        return cartService.selectOrUnselect(user.getId(), productId, Const.Cart.CHECKED);
+
+    }
 
 
     // 单独反选某个产品
+    @RequestMapping("unselect.do")
+    public GalaRes<CartVO> unselect(HttpSession session, Integer productId){
+        // 权限判断
+        // 校验是否登陆
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),ResponseCode.NEEG_LOGIN.getDesc());
+        }
+
+        // 购物车核心逻辑
+        return cartService.selectOrUnselect(user.getId(), productId, Const.Cart.UN_CHECKED);
+
+    }
 
     // 查询当前用户的购物车里面的产品数量，如果一个产品有10个，那么数量数量就是10
 
