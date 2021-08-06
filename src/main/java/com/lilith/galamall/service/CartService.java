@@ -18,5 +18,5 @@ public interface CartService {
 
     GalaRes<CartVO> list(Integer userId);
 
-    GalaRes<CartVO> selectOrUnselect(Integer userId, Integer checked);
+    GalaRes<CartVO> selectOrUnselect(Integer userId, Integer productId, Integer checked);
 }

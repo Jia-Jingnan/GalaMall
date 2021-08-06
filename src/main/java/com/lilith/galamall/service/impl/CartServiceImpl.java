@@ -98,8 +98,8 @@ public class CartServiceImpl implements CartService {
     }
 
     // 全选
-    public GalaRes<CartVO> selectOrUnselect(Integer userId, Integer checked){
-        cartMapper.checkedOrUncheckedAllProduct(userId,checked);
+    public GalaRes<CartVO> selectOrUnselect(Integer userId, Integer productId, Integer checked){
+        cartMapper.checkedOrUncheckedProduct(userId,productId,checked);
         return this.list(userId);
     }
 
