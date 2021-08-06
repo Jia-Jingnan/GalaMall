@@ -54,6 +54,19 @@ public class CartController {
     }
 
     // 全反选
+    @RequestMapping("un_select_all.do")
+    public GalaRes<CartVO> unselectAll(HttpSession session){
+        // 权限判断
+        // 校验是否登陆
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),ResponseCode.NEEG_LOGIN.getDesc());
+        }
+
+        // 购物车核心逻辑
+        return cartService.selectOrUnselect(user.getId(), Const.Cart.UN_CHECKED);
+
+    }
 
     // 单独选
 
