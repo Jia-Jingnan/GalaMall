@@ -17,4 +17,6 @@ public interface CartService {
     GalaRes<CartVO> deleteProduct(Integer userId, String productIds);
 
     GalaRes<CartVO> list(Integer userId);
+
+    GalaRes<CartVO> selectOrUnselect(Integer userId, Integer checked);
 }

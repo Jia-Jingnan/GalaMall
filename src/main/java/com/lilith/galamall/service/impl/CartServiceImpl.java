@@ -56,9 +56,7 @@ public class CartServiceImpl implements CartService {
             cartMapper.updateByPrimaryKeySelective(cart);
         }
 
-        CartVO cartVO = this.getCartVOLimit(userId);
-
-        return GalaRes.createBySuccess(cartVO);
+        return this.list(userId);
     }
 
     //更新购物车方法
@@ -76,8 +74,7 @@ public class CartServiceImpl implements CartService {
         // 更新购物车
         cartMapper.updateByPrimaryKeySelective(cart);
 
-        CartVO cartVO = this.getCartVOLimit(userId);
-        return GalaRes.createBySuccess(cartVO);
+        return this.list(userId);
     }
 
 
@@ -90,8 +87,7 @@ public class CartServiceImpl implements CartService {
         }
 
         cartMapper.deleteByUserIdProductIds(userId,productList);
-        CartVO cartVO = this.getCartVOLimit(userId);
-        return GalaRes.createBySuccess(cartVO);
+        return this.list(userId);
 
     }
 
@@ -100,6 +96,13 @@ public class CartServiceImpl implements CartService {
         CartVO cartVO = this.getCartVOLimit(userId);
         return GalaRes.createBySuccess(cartVO);
     }
+
+    // 全选
+    public GalaRes<CartVO> selectOrUnselect(Integer userId, Integer checked){
+        cartMapper.checkedOrUncheckedAllProduct(userId,checked);
+        return this.list(userId);
+    }
+
 
     // 购物车核心方法
     private CartVO getCartVOLimit(Integer userId){

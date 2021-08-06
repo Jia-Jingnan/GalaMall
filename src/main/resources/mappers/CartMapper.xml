@@ -151,4 +151,11 @@
     </if>
   </delete>
 
+  <update id="checkedOrUncheckedAllProduct" parameterType="map">
+    UPDATE galamall_cart
+    set checked = #{checked}
+    update_time = now()
+    where user_id = #{userId}
+  </update>
+
 </mapper>
