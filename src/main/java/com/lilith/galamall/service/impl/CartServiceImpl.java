@@ -95,6 +95,12 @@ public class CartServiceImpl implements CartService {
 
     }
 
+    // 查看购物车列表
+    public GalaRes<CartVO> list(Integer userId){
+        CartVO cartVO = this.getCartVOLimit(userId);
+        return GalaRes.createBySuccess(cartVO);
+    }
+
     // 购物车核心方法
     private CartVO getCartVOLimit(Integer userId){
         CartVO cartVO = new CartVO();
