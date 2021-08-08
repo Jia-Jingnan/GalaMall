@@ -100,6 +100,19 @@ public class CartController {
     }
 
     // 查询当前用户的购物车里面的产品数量，如果一个产品有10个，那么数量数量就是10
+    @RequestMapping("get_cart_product_count.do")
+    public GalaRes<Integer> getCartProductCount(HttpSession session){
+        // 权限判断
+        // 校验是否登陆
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createBySuccess(0);
+        }
+
+        // 购物车核心逻辑
+        return cartService.getCartProductCount(user.getId());
+
+    }
 
 
 

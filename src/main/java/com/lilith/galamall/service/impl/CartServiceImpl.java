@@ -103,6 +103,15 @@ public class CartServiceImpl implements CartService {
         return this.list(userId);
     }
 
+    // 查询购物车中商品数量
+    public GalaRes<Integer> getCartProductCount(Integer userId){
+        if (userId == null){
+            return GalaRes.createBySuccess(0);
+        }
+
+        return GalaRes.createBySuccess(cartMapper.selectCartProductCount(userId));
+    }
+
 
     // 购物车核心方法
     private CartVO getCartVOLimit(Integer userId){
