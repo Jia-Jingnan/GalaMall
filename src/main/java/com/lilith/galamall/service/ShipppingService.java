@@ -14,4 +14,7 @@ public interface ShipppingService {
     GalaRes del(Integer userId, Integer shippingId);
 
     GalaRes update(Integer userId, Shipping shipping);
+
+    GalaRes<Shipping> select(Integer userId, Integer shippingId);
+
 }

@@ -50,4 +50,12 @@ public class ShipppingServiceImpl implements ShipppingService {
         }
         return GalaRes.createByErrorMessage("更新地址成功");
     }
+
+    public GalaRes<Shipping> select(Integer userId, Integer shippingId){
+        Shipping shipping = shippingMapper.selectByShippingIdUserId(userId,shippingId);
+        if (shipping == null){
+            return GalaRes.createByErrorMessage("无法查询到该地址");
+        }
+        return GalaRes.createBySuccess("更新地址成功",shipping);
+    }
 }
