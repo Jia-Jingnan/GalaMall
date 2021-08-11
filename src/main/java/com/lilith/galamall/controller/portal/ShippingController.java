@@ -47,4 +47,18 @@ public class ShippingController {
         }
         return shipppingService.del(user.getId(), shippingId);
     }
+
+
+    @RequestMapping("/update.do")
+    public GalaRes update(HttpSession session, Shipping shipping){
+
+        // 权限判断
+        // 校验是否登陆
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),ResponseCode.NEEG_LOGIN.getDesc());
+        }
+        return shipppingService.update(user.getId(), shipping);
+    }
+
 }

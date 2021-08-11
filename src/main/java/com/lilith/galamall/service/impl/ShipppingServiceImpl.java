@@ -40,4 +40,14 @@ public class ShipppingServiceImpl implements ShipppingService {
             return GalaRes.createByErrorMessage("删除地址失败");
         }
     }
+
+
+    public GalaRes update(Integer userId, Shipping shipping){
+        shipping.setUserId(userId);
+        int rowCount = shippingMapper.updateByShipping(shipping);
+        if (rowCount > 0){
+            return GalaRes.createBySuccess("更新地址成功");
+        }
+        return GalaRes.createByErrorMessage("更新地址成功");
+    }
 }
