@@ -59,7 +59,7 @@ public class ShipppingServiceImpl implements ShipppingService {
         if (shipping == null){
             return GalaRes.createByErrorMessage("无法查询到该地址");
         }
-        return GalaRes.createBySuccess("更新地址成功",shipping);
+        return GalaRes.createBySuccess("查看地址成功",shipping);
     }
 
     public GalaRes<PageInfo> list(Integer userId, int pageNum, int pageSize){
