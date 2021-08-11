@@ -23,7 +23,7 @@ public class ShippingController {
     @Autowired
     private ShipppingService shipppingService;
 
-    @RequestMapping("/add")
+    @RequestMapping("/add.do")
     public GalaRes add(HttpSession session, Shipping shipping){
 
         // 权限判断
@@ -33,5 +33,18 @@ public class ShippingController {
             return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),ResponseCode.NEEG_LOGIN.getDesc());
         }
         return shipppingService.add(user.getId(), shipping);
+    }
+
+
+    @RequestMapping("/delete.do")
+    public GalaRes del(HttpSession session, Integer shippingId){
+
+        // 权限判断
+        // 校验是否登陆
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return GalaRes.createByErrorCodeMessage(ResponseCode.NEEG_LOGIN.getCode(),ResponseCode.NEEG_LOGIN.getDesc());
+        }
+        return shipppingService.del(user.getId(), shippingId);
     }
 }

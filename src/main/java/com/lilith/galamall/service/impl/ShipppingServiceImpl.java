@@ -30,4 +30,14 @@ public class ShipppingServiceImpl implements ShipppingService {
         }
         return GalaRes.createByErrorMessage("新建地址失败");
     }
+
+
+    public GalaRes del(Integer userId, Integer shippingId){
+        int result = shippingMapper.deleteByShippingIdUserId(userId,shippingId);
+        if (result > 0){
+            return GalaRes.createBySuccessMessage("删除地址成功");
+        } else {
+            return GalaRes.createByErrorMessage("删除地址失败");
+        }
+    }
 }

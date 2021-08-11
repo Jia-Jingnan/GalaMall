@@ -10,4 +10,6 @@ import com.lilith.galamall.entity.Shipping;
 public interface ShipppingService {
 
     GalaRes add(Integer userId, Shipping shipping);
+
+    GalaRes del(Integer userId, Integer shippingId);
 }
