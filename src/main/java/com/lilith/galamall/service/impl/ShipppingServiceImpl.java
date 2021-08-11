@@ -1,5 +1,7 @@
 package com.lilith.galamall.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.dao.ShippingMapper;
@@ -8,6 +10,7 @@ import com.lilith.galamall.service.ShipppingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,5 +60,15 @@ public class ShipppingServiceImpl implements ShipppingService {
             return GalaRes.createByErrorMessage("无法查询到该地址");
         }
         return GalaRes.createBySuccess("更新地址成功",shipping);
+    }
+
+    public GalaRes<PageInfo> list(Integer userId, int pageNum, int pageSize){
+
+        PageHelper.startPage(pageNum,pageSize);
+        List<Shipping> shippingList = shippingMapper.selectByUserId(userId);
+        PageInfo pageInfo = new PageInfo(shippingList);
+
+        return GalaRes.createBySuccess(pageInfo);
+
     }
 }

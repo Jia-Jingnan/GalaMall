@@ -1,5 +1,6 @@
 package com.lilith.galamall.service;
 
+import com.github.pagehelper.PageInfo;
 import com.lilith.galamall.common.GalaRes;
 import com.lilith.galamall.entity.Shipping;
 
@@ -16,5 +17,7 @@ public interface ShipppingService {
     GalaRes update(Integer userId, Shipping shipping);
 
     GalaRes<Shipping> select(Integer userId, Integer shippingId);
+
+    GalaRes<PageInfo> list(Integer userId, int pageNum, int pageSize);
 
 }

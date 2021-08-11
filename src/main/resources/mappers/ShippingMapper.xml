@@ -207,4 +207,10 @@
     where id = #{shippingId}
     and user_id = #{userId}
   </select>
+
+  <select id="selectByUserId" parameterType="map" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from galamall_shipping
+    where user_id = #{userId}
+  </select>
 </mapper>
