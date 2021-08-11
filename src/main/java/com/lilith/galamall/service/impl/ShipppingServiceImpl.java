@@ -1,0 +1,33 @@
+package com.lilith.galamall.service.impl;
+
+import com.google.common.collect.Maps;
+import com.lilith.galamall.common.GalaRes;
+import com.lilith.galamall.dao.ShippingMapper;
+import com.lilith.galamall.entity.Shipping;
+import com.lilith.galamall.service.ShipppingService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+
+/**
+ * @Author:JiaJingnan
+ * @Date: 下午4:42 2021/8/22
+ */
+@Service
+public class ShipppingServiceImpl implements ShipppingService {
+
+    @Autowired
+    private ShippingMapper shippingMapper;
+
+    public GalaRes add(Integer userId, Shipping shipping){
+        shipping.setUserId(userId);
+        int rowCount = shippingMapper.insert(shipping);
+        if (rowCount > 0){
+            Map result = Maps.newHashMap();
+            result.put("shippingId", shipping.getId());
+            return GalaRes.createBySuccess("新建地址成功",result);
+        }
+        return GalaRes.createByErrorMessage("新建地址失败");
+    }
+}
